@@ -2,23 +2,24 @@ extends ../layout
 
 block content
   .page-header
-    h3 Sign up
-  form.form-horizontal(id='signup-form', method='POST')
+    h5 Sign up
+  form.form-horizontal.col-sm-10(id='signup-form', method='POST')
     input(type='hidden', name='_csrf', value=_csrf)
-    .form-group
-      label.col-sm-3.control-label(for='email') Email
-      .col-sm-7
-        input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus)
-    .form-group
-      label.col-sm-3.control-label(for='password') Password
-      .col-sm-7
+    .form-group.col-sm-5
+        input.form-control(type='text', name='nickName', id='nickName', placeholder='Nickname') 
+    .form-group.col-sm-7
+        input.form-control(type='text', name='realName', id='realName' placeholder='Real Name', autofocus) 
+    .form-group.col-sm-11
+        input.form-control(type='email', name='email', id='email', placeholder='Email')
+    .form-group.col-sm-6
         input.form-control(type='password', name='password', id='password', placeholder='Password')
-    .form-group
-      label.col-sm-3.control-label(for='confirmPassword') Confirm Password
-      .col-sm-7
+    .form-group.col-sm-6  
         input.form-control(type='password', name='confirmPassword', id='confirmPassword', placeholder='Confirm Password')
-    .form-group
-      .col-sm-offset-3.col-sm-7
+    .form-group-col-sm-11
+        label.btn.btn-group.col-md-6 Working
+          input.form-control(type="radio", name="membType", id='membType', value="1")
+        label.btn.btn-group.col-md-6 Studying/Unemployed
+          input.form-control(type="radio", name="membType", id-'membType', value="0") 
         button.btn.btn-success(type='submit')
           span.ion-person-add
           | Signup

@@ -93,7 +93,11 @@ exports.postSignup = function(req, res, next) {
 
   var user = new User({
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    profile: { 
+      nickname: req.body.nickname,
+      realname: req.body.realName,
+    },
   });
 
   User.findOne({ email: req.body.email }, function(err, existingUser) {
@@ -131,10 +135,9 @@ exports.postUpdateProfile = function(req, res, next) {
   User.findById(req.user.id, function(err, user) {
     if (err) return next(err);
     user.email = req.body.email || '';
-    user.profile.name = req.body.name || '';
+    user.profile.realname = req.body.realname || '';
     user.profile.gender = req.body.gender || '';
-    user.profile.location = req.body.location || '';
-    user.profile.website = req.body.website || '';
+    user.profile.nickname = req.body.nickname || '';
 
     user.save(function(err) {
       if (err) return next(err);
@@ -275,10 +278,10 @@ exports.postReset = function(req, res, next) {
     },
     function(user, done) {
       var transporter = nodemailer.createTransport({
-        service: 'SendGrid',
+        service: 'Mailgun',
         auth: {
-          user: secrets.sendgrid.user,
-          pass: secrets.sendgrid.password
+          user: secrets.mailgun.user,
+          pass: secrets.mailgun.password
         }
       });
       var mailOptions = {
@@ -353,16 +356,16 @@ exports.postForgot = function(req, res, next) {
     },
     function(token, user, done) {
       var transporter = nodemailer.createTransport({
-        service: 'SendGrid',
+        service: 'Mailgun',
         auth: {
-          user: secrets.sendgrid.user,
-          pass: secrets.sendgrid.password
+          user: secrets.mailgun.user,
+          pass: secrets.mailgun.password
         }
       });
       var mailOptions = {
         to: user.email,
-        from: 'hackathon@starter.com',
-        subject: 'Reset your password on Hackathon Starter',
+        from: 'inductme@hsbne.org',
+        subject: 'Reset your password on InductMe',
         text: 'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
           'http://' + req.headers.host + '/reset/' + token + '\n\n' +
